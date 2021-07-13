@@ -5,6 +5,7 @@ const fs = require("fs");
 const util = require("util");
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
+const { nanoid } = require('nanoid')
 const path = require("path");
 const app = express();
 const PORT = 3001;
@@ -35,6 +36,7 @@ app.get("/api/notes", async (req, res) => {
 //saves user input and returns new db.json
 app.post("/api/notes", (req, res) => {
   const newNote = req.body;
+  req.body.id = nanoid()
 
   fs.readFile("./db/db.json", (error, data) => {
     if (error) throw error;
@@ -53,7 +55,11 @@ app.post("/api/notes", (req, res) => {
   });
 });
 
-//delete route
+delete route
+app.delete('/api/notes/:id', (req, res) => {
+  console.log("Delete request called")
+  console.log(req.params)
+} )
 
 //begins server listening on designated port
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
