@@ -8,7 +8,7 @@ const writeFile = util.promisify(fs.writeFile);
 const { nanoid } = require('nanoid')
 const path = require("path");
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 //add static files. this allows express to serve your static files such as CSS and javascript
 app.use(express.static(path.join(__dirname, "Develop/public")));
