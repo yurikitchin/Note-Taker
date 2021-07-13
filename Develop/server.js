@@ -42,10 +42,8 @@ app.post("/api/notes", (req, res) => {
     if (error) throw error;
     let notesArray = JSON.parse(data);
     notesArray.push(newNote);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", notesArray);
 
     fs.writeFile("./db/db.json", JSON.stringify(notesArray), function (err) {
-      console.log("bbbbbbbbbbbbbbbbbbbbbbbbbb", JSON.stringify(notesArray));
       if (err) throw err;
       else {
         console.log("thew new note has been added");
@@ -59,7 +57,18 @@ delete route
 app.delete('/api/notes/:id', (req, res) => {
   console.log("Delete request called")
   console.log(req.params)
-} )
+
+  let deleteID = req.params.id
+
+  fs.readFile("./db/db.json", (error, data) => {
+    if (error) throw error;
+    let notesArray = JSON.parse(data);
+    const newArray = notesArray.filter((note) => note.id !== deleteID)
+    console.log(newArray)
+    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", notesArray);
+    
+    }); 
+});
 
 //begins server listening on designated port
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
