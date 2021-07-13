@@ -19,11 +19,11 @@ app.use(express.json());
 
 //Routes
 app.get("/", (req, res) =>
-  res.sendFile("./public/index.html", { root: __dirname })
+  res.sendFile("./Develop/public/index.html", { root: __dirname })
 );
 
 app.get("/notes", (req, res) =>
-  res.sendFile("./public/notes.html", { root: __dirname })
+  res.sendFile("./Develop/public/notes.html", { root: __dirname })
 );
 
 //get api router response from client side
@@ -38,12 +38,12 @@ app.post("/api/notes", (req, res) => {
   const newNote = req.body;
   req.body.id = nanoid()
 
-  fs.readFile("./db/db.json", (error, data) => {
+  fs.readFile("./Develop/db/db.json", (error, data) => {
     if (error) throw error;
     let notesArray = JSON.parse(data);
     notesArray.push(newNote);
 
-    fs.writeFile("./db/db.json", JSON.stringify(notesArray), function (err) {
+    fs.writeFile("./Develop/db/db.json", JSON.stringify(notesArray), function (err) {
       if (err) throw err;
       else {
         console.log("thew new note has been added");
