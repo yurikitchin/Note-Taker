@@ -53,20 +53,24 @@ app.post("/api/notes", (req, res) => {
   });
 });
 
-delete route
+//Deletes selected note
 app.delete('/api/notes/:id', (req, res) => {
   console.log("Delete request called")
-  console.log(req.params)
 
   let deleteID = req.params.id
-
+    //reads db.json then filters out the note to delete using the nano id
   fs.readFile("./db/db.json", (error, data) => {
     if (error) throw error;
     let notesArray = JSON.parse(data);
     const newArray = notesArray.filter((note) => note.id !== deleteID)
-    console.log(newArray)
-    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", notesArray);
-    
+
+    fs.writeFile("./db/db.json", JSON.stringify(newArray), function (err) {
+        if (err) throw err;
+        else {
+          console.log("the new note has been added");
+          res.sendStatus(200);
+        }
+      });
     }); 
 });
 
