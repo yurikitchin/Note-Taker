@@ -11,8 +11,8 @@ const app = express();
 const PORT = 3001;
 
 //add static files. this allows express to serve your static files such as CSS and javascript
-app.use(express.static(path.join(__dirname, "public")));
-
+app.use(express.static(path.join(__dirname, "Develop/public")));
+console.log(__dirname)
 //add body parser - parse url encoded information into a ne wbody object and converts it to JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -28,7 +28,7 @@ app.get("/notes", (req, res) =>
 
 //get api router response from client side
 app.get("/api/notes", async (req, res) => {
-  let notes = await readFile("./db/db.json");
+  let notes = await readFile("./Develop/db/db.json");
   notes = JSON.parse(notes);
   return res.json(notes);
 });
@@ -59,12 +59,12 @@ app.delete('/api/notes/:id', (req, res) => {
 
   let deleteID = req.params.id
     //reads db.json then filters out the note to delete using the nano id
-  fs.readFile("./db/db.json", (error, data) => {
+  fs.readFile("./Develop/db/db.json", (error, data) => {
     if (error) throw error;
     let notesArray = JSON.parse(data);
     const newArray = notesArray.filter((note) => note.id !== deleteID)
 
-    fs.writeFile("./db/db.json", JSON.stringify(newArray), function (err) {
+    fs.writeFile("./Develop/db/db.json", JSON.stringify(newArray), function (err) {
         if (err) throw err;
         else {
           console.log("the new note has been added");
